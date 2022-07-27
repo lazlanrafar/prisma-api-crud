@@ -28,7 +28,14 @@ router.get("/products/:id", async (req, res, next) => {
 });
 
 router.post("/products", async (req, res, next) => {
-  res.render("index", { title: "Express" });
+  try {
+    const product = await prisma.product.create({
+      data: req.body,
+    });
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.patch("/products/:id", async (req, res, next) => {
