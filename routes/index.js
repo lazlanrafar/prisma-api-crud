@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 /* GET home page. */
-router.get("/products", async (req, res, next) => {
+router.get("/product", async (req, res, next) => {
   try {
     const products = await prisma.product.findMany({
       include: {
@@ -23,11 +23,24 @@ router.get("/products", async (req, res, next) => {
   }
 });
 
-router.get("/products/:id", async (req, res, next) => {
-  res.render("index", { title: "Express" });
+router.get("/product/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await prisma.product.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        category: true,
+      },
+    });
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post("/products", async (req, res, next) => {
+router.post("/product", async (req, res, next) => {
   try {
     const product = await prisma.product.create({
       data: req.body,
@@ -38,11 +51,11 @@ router.post("/products", async (req, res, next) => {
   }
 });
 
-router.patch("/products/:id", async (req, res, next) => {
+router.patch("/product/:id", async (req, res, next) => {
   res.render("index", { title: "Express" });
 });
 
-router.delete("/products/:id", async (req, res, next) => {
+router.delete("/product/:id", async (req, res, next) => {
   res.render("index", { title: "Express" });
 });
 
