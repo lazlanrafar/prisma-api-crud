@@ -1,5 +1,7 @@
 ### GET ALL
 GET http://localhost:3000/product
+
+
 ### CREATE
 POST http://localhost:3000/product
 Content-Type: application/json
@@ -9,8 +11,22 @@ Content-Type: application/json
   "price": 100,
   "categoryId": 1
 }
+
+
 ### GET ONE
-GET http://localhost:3000/product/3
+GET http://localhost:3000/product/2
+
+
 ### DELETE
 DELETE http://localhost:3000/product/1
-###
+
+
+### UPDATE
+PATCH http://localhost:3000/product/2
+Content-Type: application/json
+
+{
+  "name": "Product 20",
+  "price": 100,
+  "categoryId": 2
+}

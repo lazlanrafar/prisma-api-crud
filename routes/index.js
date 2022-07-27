@@ -52,7 +52,22 @@ router.post("/product", async (req, res, next) => {
 });
 
 router.patch("/product/:id", async (req, res, next) => {
-  res.render("index", { title: "Express" });
+  try {
+    const { id } = req.params;
+    const product = await prisma.product.update({
+      where: {
+        id: Number(id),
+      },
+      data: req.body,
+      include: {
+        category: true,
+      },
+    });
+
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete("/product/:id", async (req, res, next) => {
