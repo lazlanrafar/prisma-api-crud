@@ -56,7 +56,17 @@ router.patch("/product/:id", async (req, res, next) => {
 });
 
 router.delete("/product/:id", async (req, res, next) => {
-  res.render("index", { title: "Express" });
+  try {
+    const { id } = req.params;
+    const product = await prisma.product.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
